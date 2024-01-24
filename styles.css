@@ -19,6 +19,11 @@ body {
   grid-template-rows: repeat(3, 1fr);
 }
 
-.board-tile {
+.boardTile {
   border: 1px solid black;
+}
+
+.boardTile:hover {
+  cursor: pointer;
+  background-color: lightgray;
 }
