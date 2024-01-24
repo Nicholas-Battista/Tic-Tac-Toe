@@ -1,3 +1,19 @@
+const Users = () => {
+  const UserX = (() => {
+    const name = document.getElementById("playerX").value;
+    const symbol = "X";
+    return { name, symbol };
+  })();
+
+  const UserO = (() => {
+    const name = document.getElementById("playerO").value;
+    const symbol = "O";
+    return { name, symbol };
+  })();
+
+  return [UserX, UserO];
+};
+
 const Gameboard = (() => {
   const layout = [
     [1, 2, 3],
@@ -28,21 +44,19 @@ const newGame = (function () {
   });
 })();
 
+function playRound(playerX, playerO) {
+  const screenBoard = Array.from(document.querySelectorAll(".boardTile"));
+  screenBoard.forEach((tile) => {
+    tile.addEventListener("click", () => {
+      tile.innerHTML = playerX.symbol + playerO.symbol;
+    });
+  });
+}
+
 function handleStartBtn() {
-  const UserX = (() => {
-    const name = document.getElementById("playerX").value;
-    const symbol = "X";
-    return { name, symbol };
-  })();
-
-  const UserO = (() => {
-    const name = document.getElementById("playerO").value;
-    const symbol = "O";
-    return { name, symbol };
-  })();
-
-  console.log(UserX);
-  console.log(UserO);
+  let players = Users();
+  console.log(players);
+  playRound(players[0], players[1]);
 }
 
 const startBtn = document.querySelector(".start");
