@@ -1,44 +1,3 @@
-// const Users = () => {
-//   const UserX = (() => {
-//     const name = document.getElementById("playerX").value;
-//     const symbol = "X";
-//     let count = 0;
-//     const counter = function () {
-//       count++;
-//       console.log("UserX count:", count);
-//       return count;
-//     };
-//     return { name, symbol, count, counter };
-//     })();
-
-//   const UserO = (() => {
-//     const name = document.getElementById("playerO").value;
-//     const symbol = "O";
-//     let count = 0;
-//     const counter = function () {
-//       count++;
-//     };
-//     return { name, symbol, count, counter };
-//   })();
-
-//   return [UserX, UserO];
-// };
-
-// function User(name, symbol) {
-//   let count = 0;
-//   const counter = () => {
-//     count++;
-//     console.log(name + " count:", count);
-//     return count;
-//   };
-//   return { name, symbol, count, counter };
-// }
-
-// function Users() {
-//   const userX = User(document.getElementById("playerX").value, "X");
-//   const userO = User(document.getElementById("playerO").value, "O");
-//   return [userX, userO];
-// }
 function User(name, symbol) {
   let count = 0;
   return { name, symbol, count };
@@ -51,10 +10,11 @@ const Gameboard = (() => {
     [7, 8, 9],
   ];
 
-  let liveBoard = [];
+  let liveBoard = layout;
 
-  const updateValue = (value, row, col) => {
-    return (liveBoard[row][col] = value);
+  const updateValue = (i, j, value) => {
+    liveBoard[i][j] = value;
+    return liveBoard;
   };
 
   return { layout, liveBoard, updateValue };
@@ -74,17 +34,36 @@ const newGame = (function () {
   });
 })();
 
+function updateLiveBoard(index) {
+  let row;
+  if (index <= 3) {
+    row = 0;
+  } else if (index <= 6 && index > 3) {
+    row = 1;
+  } else row = 2;
+  console.log(row);
+
+  let position = Gameboard.liveBoard[row].indexOf(index);
+  Gameboard.updateValue(row, position, "X");
+}
+
 function playRound() {
   const userX = User(document.getElementById("playerX").value, "X");
   const userO = User(document.getElementById("playerO").value, "O");
   const screenBoard = Array.from(document.querySelectorAll(".boardTile"));
   Gameboard.liveBoard = Gameboard.layout;
+  console.log(Gameboard.liveBoard);
 
   screenBoard.forEach((tile) => {
     tile.addEventListener("click", function clickHandler() {
       if (userX.count === userO.count) {
         tile.innerHTML = userX.symbol;
         userX.count++;
+
+        let index = parseInt(tile.classList.item(1));
+        console.log(index);
+        updateLiveBoard(index);
+        console.log(Gameboard.liveBoard);
 
         console.log(userX);
       } else {
