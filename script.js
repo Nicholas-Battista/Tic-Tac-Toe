@@ -34,7 +34,7 @@ const newGame = (function () {
   });
 })();
 
-function updateLiveBoard(index) {
+function updateLiveBoard(index, user) {
   let row;
   if (index <= 3) {
     row = 0;
@@ -44,7 +44,16 @@ function updateLiveBoard(index) {
   console.log(row);
 
   let position = Gameboard.liveBoard[row].indexOf(index);
-  Gameboard.updateValue(row, position, "X");
+  Gameboard.updateValue(row, position, user.symbol);
+}
+
+function checkWinner(userX, userO) {
+  // if x or o symbol is found in array then check nearest items, if another is found check again, if third is found return winner
+  if (
+    Gameboard.liveBoard.includes(userX.symbol) ||
+    Gameboard.liveBoard.includes(userO.symbol)
+  ) {
+  }
 }
 
 function playRound() {
@@ -61,15 +70,14 @@ function playRound() {
         userX.count++;
 
         let index = parseInt(tile.classList.item(1));
-        console.log(index);
-        updateLiveBoard(index);
+        updateLiveBoard(index, userX);
         console.log(Gameboard.liveBoard);
-
-        console.log(userX);
       } else {
         tile.innerHTML = userO.symbol;
         userO.count++;
-        console.log(userO);
+
+        let index = parseInt(tile.classList.item(1));
+        updateLiveBoard(index, userO);
       }
       tile.removeEventListener("click", clickHandler);
     });
