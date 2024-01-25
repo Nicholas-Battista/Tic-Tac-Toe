@@ -1,8 +1,3 @@
-function User(name, symbol) {
-  let count = 0;
-  return { name, symbol, count };
-}
-
 const Gameboard = (() => {
   const layout = [
     [1, 2, 3],
@@ -19,6 +14,12 @@ const Gameboard = (() => {
 
   return { layout, liveBoard, updateValue };
 })();
+
+function User(name, symbol) {
+  let count = 0;
+  let win = false;
+  return { name, symbol, count, win };
+}
 
 const newGame = (function () {
   const boardContainer = document.querySelector(".board-container");
@@ -48,11 +49,67 @@ function updateLiveBoard(index, user) {
 }
 
 function checkWinner(userX, userO) {
-  // if x or o symbol is found in array then check nearest items, if another is found check again, if third is found return winner
-  if (
-    Gameboard.liveBoard.includes(userX.symbol) ||
-    Gameboard.liveBoard.includes(userO.symbol)
-  ) {
+  const winPatterns = [
+    [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+    ],
+    [
+      [1, 0],
+      [1, 1],
+      [1, 2],
+    ],
+    [
+      [2, 0],
+      [2, 1],
+      [2, 2],
+    ],
+    [
+      [0, 0],
+      [1, 0],
+      [2, 0],
+    ],
+    [
+      [0, 1],
+      [1, 1],
+      [2, 1],
+    ],
+    [
+      [0, 2],
+      [1, 2],
+      [2, 2],
+    ],
+    [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+    ],
+    [
+      [0, 2],
+      [1, 1],
+      [2, 0],
+    ],
+  ];
+
+  winPatterns.forEach((pattern) => {
+    const [a, b, c] = pattern;
+    if (
+      Gameboard.liveBoard[a[0]][a[1]] === Gameboard.liveBoard[b[0]][b[1]] &&
+      Gameboard.liveBoard[a[0]][a[1]] === Gameboard.liveBoard[c[0]][c[1]]
+    ) {
+      if (Gameboard.liveBoard[a[0]][a[1]] === userX.symbol) {
+        return (userX.win = true);
+      } else {
+        return (userO.win = true);
+      }
+    }
+  });
+}
+
+function displayWinner(user) {
+  if (user.win) {
+    return console.log(user.name + " has won the game!");
   }
 }
 
@@ -72,12 +129,16 @@ function playRound() {
         let index = parseInt(tile.classList.item(1));
         updateLiveBoard(index, userX);
         console.log(Gameboard.liveBoard);
+        checkWinner(userX, userO);
+        displayWinner(userX);
       } else {
         tile.innerHTML = userO.symbol;
         userO.count++;
 
         let index = parseInt(tile.classList.item(1));
         updateLiveBoard(index, userO);
+        checkWinner(userX, userO);
+        displayWinner(userO);
       }
       tile.removeEventListener("click", clickHandler);
     });
