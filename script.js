@@ -35,6 +35,10 @@ const newGame = (function () {
   });
 })();
 
+function getScreenBoard() {
+  return Array.from(document.querySelectorAll(".boardTile"));
+}
+
 function updateLiveBoard(index, user) {
   let row;
   if (index <= 3) {
@@ -48,7 +52,7 @@ function updateLiveBoard(index, user) {
   Gameboard.updateValue(row, position, user.symbol);
 }
 
-function checkWinner(userX, userO) {
+function checkWinner(user) {
   /* prettier-ignore */
   const winPatterns = [
     [[0, 0],[0, 1],[0, 2]],
@@ -68,11 +72,7 @@ function checkWinner(userX, userO) {
       Gameboard.liveBoard[a[0]][a[1]] === Gameboard.liveBoard[b[0]][b[1]] &&
       Gameboard.liveBoard[a[0]][a[1]] === Gameboard.liveBoard[c[0]][c[1]]
     ) {
-      if (Gameboard.liveBoard[a[0]][a[1]] === userX.symbol) {
-        return (userX.win = true);
-      } else {
-        return (userO.win = true);
-      }
+        return user.win = true;
     }
   });
 }
@@ -86,9 +86,8 @@ function displayWinner(user) {
 function playRound() {
   const userX = User(document.getElementById("playerX").value, "X");
   const userO = User(document.getElementById("playerO").value, "O");
-  const screenBoard = Array.from(document.querySelectorAll(".boardTile"));
+  const screenBoard = getScreenBoard();
   Gameboard.liveBoard = Gameboard.layout;
-  console.log(Gameboard.liveBoard);
 
   screenBoard.forEach((tile) => {
     tile.addEventListener("click", function clickHandler() {
@@ -98,8 +97,7 @@ function playRound() {
 
         let index = parseInt(tile.classList.item(1));
         updateLiveBoard(index, userX);
-        console.log(Gameboard.liveBoard);
-        checkWinner(userX, userO);
+        checkWinner(userX);
         displayWinner(userX);
       } else {
         tile.innerHTML = userO.symbol;
@@ -107,7 +105,7 @@ function playRound() {
 
         let index = parseInt(tile.classList.item(1));
         updateLiveBoard(index, userO);
-        checkWinner(userX, userO);
+        checkWinner(userO);
         displayWinner(userO);
       }
       tile.removeEventListener("click", clickHandler);
