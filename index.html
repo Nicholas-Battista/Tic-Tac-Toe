@@ -19,12 +19,20 @@
     <div class="content">
       <h1 class="turn"></h1>
       <div class="board-container"></div>
-      <label for="playerX">Player X:</label>
-      <input type="text" id="playerX" />
-      <label for="playerO">Player O:</label>
-      <input type="text" id="playerO" />
-      <button class="start">Start Game</button>
-      <button class="again is-inactive">Play Again!</button>
+      <div class="control">
+        <div class="inputs">
+          <div class="input-sections">
+            <label for="playerX"></label>
+            <input type="text" id="playerX" placeholder="Player X" />
+          </div>
+          <div class="input-sections">
+            <label for="playerO"></label>
+            <input type="text" id="playerO" placeholder="Player O" />
+          </div>
+        </div>
+        <button class="start">Start Game</button>
+        <button class="again is-inactive">Play Again!</button>
+      </div>
     </div>
     <div class="footer">
       <p>Nicholas-Battista 2024</p>

@@ -35,6 +35,42 @@ body {
   justify-content: center;
 }
 
+.content h1 {
+  margin: 0;
+  height: 50px;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.inputs {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-sections {
+  width: 50%;
+}
+
+input {
+  background-color: var(--dim-gray);
+  border: none;
+  padding: 1rem 0 1rem 10px;
+  color: var(--light-purple);
+  width: 95%;
+}
+
+::placeholder {
+  color: var(--light-purple);
+}
 .board-container {
   background-color: var(--light-purple);
   width: 500px;
@@ -61,6 +97,19 @@ body {
 .boardTile:hover {
   cursor: pointer;
   background-color: lightgray;
+}
+
+.start,
+.again {
+  background-color: var(--light-purple);
+  border: none;
+  padding: 1rem 2rem;
+  color: black;
+}
+
+.start:hover,
+.again:hover {
+  cursor: pointer;
 }
 
 .footer {
