@@ -75,12 +75,13 @@ function checkWinner(user) {
 
 function displayWinner(user) {
   if (user.win) {
-    return console.log(user.name + " has won the game!");
+    console.log(user.name + " has won the game!");
+    return user.name + " has won the game!";
   }
 }
 
 function determineTurn(user) {
-  return "Player " + user.symbol + "s turn!";
+  return user.name + "s turn!";
 }
 
 function playRound() {
@@ -107,8 +108,8 @@ function playRound() {
         checkWinner(userX);
         if (userX.win) {
           container.removeEventListener("click", clickHandler);
+          turn.innerHTML = displayWinner(userX);
         }
-        displayWinner(userX);
       } else {
         turn.innerHTML = determineTurn(userX);
         tile.innerHTML = userO.symbol;
@@ -119,8 +120,8 @@ function playRound() {
         checkWinner(userO);
         if (userO.win) {
           container.removeEventListener("click", clickHandler);
+          turn.innerHTML = displayWinner(userO);
         }
-        displayWinner(userO);
       }
       tile.removeEventListener("click", () => clickHandler);
     }
@@ -129,7 +130,7 @@ function playRound() {
   // only pop up once someone has won
   document.querySelector(".again").addEventListener("click", () => {
     resetLiveboard();
-    console.log(liveBoard);
+    turn.innerHTML = determineTurn(userX);
     userX.win = false;
     userX.count = 0;
     userO.win = false;
