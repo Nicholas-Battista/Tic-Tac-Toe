@@ -1,19 +1,14 @@
-const Gameboard = (() => {
-  const layout = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-  ];
+const layout = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+];
 
-  let liveBoard = layout;
-
-  const updateValue = (i, j, value) => {
-    liveBoard[i][j] = value;
-    return liveBoard;
-  };
-
-  return { layout, liveBoard, updateValue };
-})();
+let liveBoard = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+];
 
 function User(name, symbol) {
   let count = 0;
@@ -23,7 +18,7 @@ function User(name, symbol) {
 
 const newGame = (function () {
   const boardContainer = document.querySelector(".board-container");
-  let gameBoard = Gameboard.layout;
+  let gameBoard = layout;
 
   gameBoard.forEach((row) => {
     row.forEach((item) => {
@@ -47,8 +42,8 @@ function updateLiveBoard(index, user) {
     row = 1;
   } else row = 2;
 
-  let position = Gameboard.liveBoard[row].indexOf(index);
-  Gameboard.updateValue(row, position, user.symbol);
+  let position = liveBoard[row].indexOf(index);
+  liveBoard[row][position] = user.symbol;
 }
 
 function checkWinner(user) {
@@ -68,8 +63,8 @@ function checkWinner(user) {
   winPatterns.forEach((pattern) => {
     const [a, b, c] = pattern;
     if (
-      Gameboard.liveBoard[a[0]][a[1]] === Gameboard.liveBoard[b[0]][b[1]] &&
-      Gameboard.liveBoard[a[0]][a[1]] === Gameboard.liveBoard[c[0]][c[1]]
+      liveBoard[a[0]][a[1]] === liveBoard[b[0]][b[1]] &&
+      liveBoard[a[0]][a[1]] === liveBoard[c[0]][c[1]]
     ) {
         return user.win = true;
     }
@@ -86,7 +81,7 @@ function playRound() {
   const userX = User(document.getElementById("playerX").value, "X");
   const userO = User(document.getElementById("playerO").value, "O");
   const container = document.querySelector(".board-container");
-  Gameboard.liveBoard = Gameboard.layout;
+  liveBoard = layout;
 
   container.addEventListener("click", clickHandler);
 
@@ -100,6 +95,7 @@ function playRound() {
 
         let index = parseInt(tile.classList.item(1));
         updateLiveBoard(index, userX);
+        console.log(liveBoard);
         checkWinner(userX);
         if (userX.win) {
           container.removeEventListener("click", clickHandler);
@@ -112,11 +108,31 @@ function playRound() {
         let index = parseInt(tile.classList.item(1));
         updateLiveBoard(index, userO);
         checkWinner(userO);
+        if (userO.win) {
+          container.removeEventListener("click", clickHandler);
+        }
         displayWinner(userO);
       }
       tile.removeEventListener("click", () => clickHandler);
     }
   }
+
+  // only pop up once someone has won
+  document.querySelector(".again").addEventListener("click", () => {
+    liveBoard = layout;
+    console.log(liveBoard);
+    userX.win = false;
+    userX.count = 0;
+    userO.win = false;
+    userO.count = 0;
+    console.log(userX);
+    console.log(userO);
+    let screenBoard = getScreenBoard();
+    screenBoard.forEach((tile) => {
+      tile.innerHTML = "";
+    });
+    container.addEventListener("click", clickHandler);
+  });
 }
 
 function handleStartBtn() {
