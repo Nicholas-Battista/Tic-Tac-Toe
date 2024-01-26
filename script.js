@@ -1,14 +1,16 @@
-const layout = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
-];
-
 let liveBoard = [
   [1, 2, 3],
   [4, 5, 6],
   [7, 8, 9],
 ];
+
+function resetLiveboard() {
+  liveBoard = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ];
+}
 
 function User(name, symbol) {
   let count = 0;
@@ -18,7 +20,7 @@ function User(name, symbol) {
 
 const newGame = (function () {
   const boardContainer = document.querySelector(".board-container");
-  let gameBoard = layout;
+  let gameBoard = liveBoard;
 
   gameBoard.forEach((row) => {
     row.forEach((item) => {
@@ -81,7 +83,6 @@ function playRound() {
   const userX = User(document.getElementById("playerX").value, "X");
   const userO = User(document.getElementById("playerO").value, "O");
   const container = document.querySelector(".board-container");
-  liveBoard = layout;
 
   container.addEventListener("click", clickHandler);
 
@@ -119,7 +120,7 @@ function playRound() {
 
   // only pop up once someone has won
   document.querySelector(".again").addEventListener("click", () => {
-    liveBoard = layout;
+    resetLiveboard();
     console.log(liveBoard);
     userX.win = false;
     userX.count = 0;
