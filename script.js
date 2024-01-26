@@ -46,7 +46,6 @@ function updateLiveBoard(index, user) {
   } else if (index <= 6 && index > 3) {
     row = 1;
   } else row = 2;
-  console.log(row);
 
   let position = Gameboard.liveBoard[row].indexOf(index);
   Gameboard.updateValue(row, position, user.symbol);
@@ -59,7 +58,7 @@ function checkWinner(user) {
     [[1, 0],[1, 1],[1, 2]],
     [[2, 0],[2, 1],[2, 2]],
     [[0, 0],[1, 0],[2, 0]],
-    [[0, 1],[1, 1], [2, 1]],
+    [[0, 1],[1, 1],[2, 1]],
     [[0, 2],[1, 2],[2, 2]],
     [[0, 0],[1, 1],[2, 2]],
     [[0, 2],[1, 1],[2, 0]]
@@ -86,11 +85,15 @@ function displayWinner(user) {
 function playRound() {
   const userX = User(document.getElementById("playerX").value, "X");
   const userO = User(document.getElementById("playerO").value, "O");
-  const screenBoard = getScreenBoard();
+  const container = document.querySelector(".board-container");
   Gameboard.liveBoard = Gameboard.layout;
 
-  screenBoard.forEach((tile) => {
-    tile.addEventListener("click", function clickHandler() {
+  container.addEventListener("click", clickHandler);
+
+  function clickHandler(event) {
+    if (event.target.matches(".boardTile")) {
+      let tile = event.target;
+      console.log(tile);
       if (userX.count === userO.count) {
         tile.innerHTML = userX.symbol;
         userX.count++;
@@ -98,6 +101,9 @@ function playRound() {
         let index = parseInt(tile.classList.item(1));
         updateLiveBoard(index, userX);
         checkWinner(userX);
+        if (userX.win) {
+          container.removeEventListener("click", clickHandler);
+        }
         displayWinner(userX);
       } else {
         tile.innerHTML = userO.symbol;
@@ -108,9 +114,9 @@ function playRound() {
         checkWinner(userO);
         displayWinner(userO);
       }
-      tile.removeEventListener("click", clickHandler);
-    });
-  });
+      tile.removeEventListener("click", () => clickHandler);
+    }
+  }
 }
 
 function handleStartBtn() {
