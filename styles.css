@@ -103,6 +103,10 @@ input {
   background-color: var(--dim-gray);
 }
 
+.btns {
+  height: 50px;
+}
+
 .start,
 .again {
   background-color: var(--light-purple);
