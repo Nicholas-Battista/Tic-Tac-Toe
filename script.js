@@ -79,18 +79,25 @@ function displayWinner(user) {
   }
 }
 
+function determineTurn(user) {
+  return "Player " + user.symbol + "s turn!";
+}
+
 function playRound() {
   const userX = User(document.getElementById("playerX").value, "X");
   const userO = User(document.getElementById("playerO").value, "O");
   const container = document.querySelector(".board-container");
+  const turn = document.querySelector(".turn");
+  turn.innerHTML = determineTurn(userX);
 
   container.addEventListener("click", clickHandler);
 
   function clickHandler(event) {
     if (event.target.matches(".boardTile")) {
       let tile = event.target;
-      console.log(tile);
+
       if (userX.count === userO.count) {
+        turn.innerHTML = determineTurn(userO);
         tile.innerHTML = userX.symbol;
         userX.count++;
 
@@ -103,6 +110,7 @@ function playRound() {
         }
         displayWinner(userX);
       } else {
+        turn.innerHTML = determineTurn(userX);
         tile.innerHTML = userO.symbol;
         userO.count++;
 
