@@ -75,7 +75,7 @@ function checkWinner(user) {
 
 function displayWinner(user) {
   if (user.win) {
-    console.log(user.name + " has won the game!");
+    document.querySelector(".again").classList.toggle("is-inactive");
     return user.name + " has won the game!";
   }
 }
@@ -130,13 +130,14 @@ function playRound() {
   // only pop up once someone has won
   document.querySelector(".again").addEventListener("click", () => {
     resetLiveboard();
+    document.querySelector(".again").classList.toggle("is-inactive");
     turn.innerHTML = determineTurn(userX);
     userX.win = false;
     userX.count = 0;
+
     userO.win = false;
     userO.count = 0;
-    console.log(userX);
-    console.log(userO);
+
     let screenBoard = getScreenBoard();
     screenBoard.forEach((tile) => {
       tile.innerHTML = "";
@@ -146,6 +147,7 @@ function playRound() {
 }
 
 function handleStartBtn() {
+  startBtn.classList.toggle("is-inactive");
   playRound();
 }
 
