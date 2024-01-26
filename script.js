@@ -84,9 +84,25 @@ function determineTurn(user) {
   return user.name + "s turn!";
 }
 
+function detectNameX() {
+  if (document.getElementById("playerX").value === "") {
+    return "X";
+  } else {
+    return document.getElementById("playerX").value;
+  }
+}
+
+function detectNameO() {
+  if (document.getElementById("playerO").value === "") {
+    return "O";
+  } else {
+    return document.getElementById("playerO").value;
+  }
+}
+
 function playRound() {
-  const userX = User(document.getElementById("playerX").value, "X");
-  const userO = User(document.getElementById("playerO").value, "O");
+  const userX = User(detectNameX(), "X");
+  const userO = User(detectNameO(), "O");
   const container = document.querySelector(".board-container");
   const turn = document.querySelector(".turn");
   turn.innerHTML = determineTurn(userX);
@@ -104,7 +120,6 @@ function playRound() {
 
         let index = parseInt(tile.classList.item(1));
         updateLiveBoard(index, userX);
-        console.log(liveBoard);
         checkWinner(userX);
         if (userX.win) {
           container.removeEventListener("click", clickHandler);
@@ -127,7 +142,6 @@ function playRound() {
     }
   }
 
-  // only pop up once someone has won
   document.querySelector(".again").addEventListener("click", () => {
     resetLiveboard();
     document.querySelector(".again").classList.toggle("is-inactive");
