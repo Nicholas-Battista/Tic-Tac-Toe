@@ -81,7 +81,7 @@ function displayWinner(user) {
 }
 
 function determineTurn(user) {
-  return user.name + "s turn!";
+  return user.name + "'s turn!";
 }
 
 function detectNameX() {

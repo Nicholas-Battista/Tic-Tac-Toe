@@ -25,6 +25,8 @@ body {
   width: 100%;
   text-align: center;
   padding: 2rem 0;
+  font-size: 1.25rem;
+  color: var(--light-purple);
 }
 
 .content {
