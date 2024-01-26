@@ -68,6 +68,10 @@ input {
   width: 95%;
 }
 
+#playerO {
+  text-align: right;
+  padding: 1rem 10px 1rem 0;
+}
 ::placeholder {
   color: var(--light-purple);
 }
@@ -96,7 +100,7 @@ input {
 
 .boardTile:hover {
   cursor: pointer;
-  background-color: lightgray;
+  background-color: var(--dim-gray);
 }
 
 .start,
@@ -105,6 +109,9 @@ input {
   border: none;
   padding: 1rem 2rem;
   color: black;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Handlee", cursive;
 }
 
 .start:hover,
