@@ -73,6 +73,12 @@ function checkWinner(user) {
   });
 }
 
+function checkTie() {
+  if (liveBoard.every((element) => typeof element !== "number")) {
+    return true;
+  }
+}
+
 function displayWinner(user) {
   if (user.win) {
     document.querySelector(".again").classList.toggle("is-inactive");
@@ -106,12 +112,14 @@ function playRound() {
   const container = document.querySelector(".board-container");
   const turn = document.querySelector(".turn");
   turn.innerHTML = determineTurn(userX);
-
+  let count = 0;
   container.addEventListener("click", clickHandler);
 
   function clickHandler(event) {
     if (event.target.matches(".boardTile")) {
       let tile = event.target;
+      count++;
+      console.log(count);
 
       if (userX.count === userO.count) {
         turn.innerHTML = determineTurn(userO);
@@ -124,6 +132,11 @@ function playRound() {
         if (userX.win) {
           container.removeEventListener("click", clickHandler);
           turn.innerHTML = displayWinner(userX);
+        } else {
+          if (count === 9) {
+            document.querySelector(".again").classList.toggle("is-inactive");
+            turn.innerHTML = "It's a tie!";
+          }
         }
       } else {
         turn.innerHTML = determineTurn(userX);
@@ -136,6 +149,11 @@ function playRound() {
         if (userO.win) {
           container.removeEventListener("click", clickHandler);
           turn.innerHTML = displayWinner(userO);
+        } else {
+          if (count === 9) {
+            document.querySelector(".again").classList.toggle("is-inactive");
+            turn.innerHTML = "It's a tie!";
+          }
         }
       }
       tile.removeEventListener("click", () => clickHandler);
@@ -146,6 +164,7 @@ function playRound() {
     resetLiveboard();
     document.querySelector(".again").classList.toggle("is-inactive");
     turn.innerHTML = determineTurn(userX);
+    count = 0;
     userX.win = false;
     userX.count = 0;
 
