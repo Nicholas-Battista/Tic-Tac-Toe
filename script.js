@@ -73,12 +73,6 @@ function checkWinner(user) {
   });
 }
 
-function checkTie() {
-  if (liveBoard.every((element) => typeof element !== "number")) {
-    return true;
-  }
-}
-
 function displayWinner(user) {
   if (user.win) {
     document.querySelector(".again").classList.toggle("is-inactive");
